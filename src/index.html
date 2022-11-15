@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/main.scss" class="styles" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,600;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>TODO</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <div class="title">To Do List</div>
+        <form class="form" id="form">
+          <input
+            type="text"
+            placeholder="What do you have planned?"
+            class="form__input"
+            id="taskInput"
+          />
+          <button type="submit" class="form__button button">Add</button>
+        </form>
+
+        <ul class="list" id="list">
+          <li class="list__item">
+            <label class="list__label"
+              ><input type="checkbox" class="list__checkbox" />Task</label
+            >
+            <button class="list__button button">
+              <img
+                src="./images/close.svg"
+                alt="close"
+                class="list__close-img"
+              />
+            </button>
+          </li>
+
+          <div class="empty-box">
+            <img
+              class="empty-box__picture"
+              alt="empty list"
+              src="./images/empty-list.svg"
+            />
+            <p class="empty-box__phrase">Your to-do list is still empty!</p>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <script src="./scripts/main.js"></script>
+  </body>
+</html>

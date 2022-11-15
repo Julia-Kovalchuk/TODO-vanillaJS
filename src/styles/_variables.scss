@@ -1,0 +1,67 @@
+$base-font-size: 16px;
+
+$breakpoints: (
+  mobile: rem(768px),
+  tablet: rem(1024px),
+);
+
+
+$themes: (
+  light: (
+    colorMainRed: rgba(249, 0, 0, 1),
+    colorLightRed: rgb(232, 53, 53),
+    colorMainBlack: rgba(17, 17, 17, 1),
+    colorMainWhite: rgba(255, 255, 255, 1),
+    colorMainModalWrapper: rgba(255, 255, 255, 1),
+    colorMainWhiteLight: rgba(255, 255, 255, 0.3),
+    colorDarkGray: rgba(118, 118, 118, 1),
+    colorLightGray: rgba(239, 239, 239, 1),
+    colorBackgroundModalWrapper: rgba(0 0 0/0.7),
+    colorBackgroundModalWindow: rgba(0 0 0/0.7),
+  ),
+  dark: (
+    colorMainRed: rgba(249, 0, 0, 1),
+    colorLightRed: rgb(232, 53, 53),
+    colorMainBlack: rgb(238, 237, 237),
+    colorMainWhite: rgba(17, 17, 17, 1),
+    colorMainModalWrapper: rgba(45, 45, 45,1),
+    colorMainWhiteLight: rgba(255, 255, 255, 0.3),
+    colorDarkGray: rgba(118, 118, 118, 1),
+    colorLightGray: rgba(239, 239, 239, 1),
+    colorBackgroundModalWindow: rgba(0 0 0/0.7),
+  )
+);
+
+$colors: (
+  colorMainRed: rgba(249, 0, 0, 1),
+  colorLightRed: rgb(232, 53, 53),
+  colorMainBlack: rgba(17, 17, 17, 1),
+  colorMainWhite: rgba(255, 255, 255, 1),
+  colorMainWhiteLight: rgba(255, 255, 255, 0.3),
+  colorDarkGray: rgba(118, 118, 118, 1),
+  colorLightGray: rgba(239, 239, 239, 1),
+  colorBackgroundModalWindow: rgba(0 0 0/0.7),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
