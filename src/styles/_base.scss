@@ -1,7 +1,7 @@
 @use "sass:map";
 
 //TODO: стилизация checkbox
-
+//TODO: onclick styles
 body {
   color: #055247;
   font-family: "Josefin Sans", sans-serif;
@@ -24,7 +24,7 @@ body {
   flex-direction: column;
   grid-gap: 25px;
   width: 500px;
-  // min-height: 500px;
+  min-height: 600px;
   border-radius: 20px;
   padding: 25px;
   background: white;
@@ -56,6 +56,13 @@ body {
     &::placeholder {
       color: rgb(110, 107, 107, 0.4);
     }
+
+    &:focus {
+      border-bottom: none;
+      border-radius: 5px;
+      outline: 2px rgb(110, 107, 107, 0.4);
+      outline-style: solid;
+    }
   }
 
   &__button {
@@ -72,13 +79,40 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background: #c3ebe328;
     font-size: 20px;
   }
 
-  &__checkbox {
-    width: 18px;
-    height: 18px;
-    margin-right: 15px;
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    grid-gap: 10px;
+  }
+
+  &__task-title {
+    text-align: left;
+  }
+
+  &__task-title--done {
+    text-decoration: line-through;
+    color: rgba(72, 72, 77, 0.425);
+  }
+
+  &__emoji {
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  &__emoji--done {
+    opacity: 1;
+    transition: all 0.3s;
   }
 
   &__close-img {
@@ -87,10 +121,24 @@ body {
   }
 
   &__button {
-    border: none;
+    font-size: 15px;
     background: none;
   }
+
+  &__button-done {
+    width: 25px;
+    height: 25px;
+    padding-top: 2px;
+    border: 1px solid rgba(53, 53, 56, 0.425);
+    border-radius: 50%;
+  }
+
+  &__button-delete {
+    color: #a10a3c;
+    border: none;
+  }
 }
+
 .empty-box {
   display: flex;
   flex-direction: column;
@@ -105,6 +153,10 @@ body {
   &__phrase {
     font-size: 20px;
   }
+}
+
+.none {
+  display: none;
 }
 
 // .menu {
