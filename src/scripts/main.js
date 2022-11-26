@@ -1,15 +1,20 @@
-console.log("Heo!");
-
-let tasks = [];
-
 const form = document.getElementById("form");
 const taskInput = document.getElementById("taskInput");
 const tasksList = document.getElementById("list");
-const emptyState = document.getElementById("empty-box");
 
 form.addEventListener("submit", addTask);
 tasksList.addEventListener("click", deleteTask);
 tasksList.addEventListener("click", doneTask);
+
+let tasks = [];
+
+if (localStorage.getItem("tasks")) {
+  tasks = JSON.parse(localStorage.getItem("tasks"));
+}
+
+tasks.forEach((task) => renderTask(task));
+
+checkEmptyList();
 
 function addTask(event) {
   event.preventDefault();
@@ -24,31 +29,13 @@ function addTask(event) {
 
   tasks.push(newTask);
 
-  const cssClass = newTask.done
-    ? "list__task-title list__task-title--done"
-    : "list__task-title";
-
-  const taskHTML = `
-      <li class="list__item" id=${newTask.id}>
-        <div class="list__container">
-          <button class="list__button list__button-done button" data-action="done">
-            <span class="list__emoji">✔️</span>
-          </button>
-          <p class="${cssClass}">${newTask.text}</p>
-        </div>
-        <button class="list__button list__button-delete button" data-action="delete">
-          ❌
-        </button>
-      </li>`;
-
-  tasksList.insertAdjacentHTML("beforeend", taskHTML);
+  renderTask(newTask);
 
   taskInput.value = "";
   taskInput.focus();
 
-  if (tasksList.children.length > 1) {
-    emptyState.classList.add("none");
-  }
+  checkEmptyList();
+  saveToLocalStorage();
 }
 
 function deleteTask(event) {
@@ -57,28 +44,79 @@ function deleteTask(event) {
   }
 
   const parentNode = event.target.closest("li");
-  const id = parentNode.id;
+  const id = Number(parentNode.id);
 
-  tasks = tasks.filter((task) => {
-    return task.id !== id;
-  });
+  tasks = tasks.filter((task) => task.id !== id);
 
   parentNode.remove();
 
-  if (tasksList.children.length === 1) {
-    emptyState.classList.remove("none");
-  }
+  checkEmptyList();
+  saveToLocalStorage();
 }
 
 function doneTask(event) {
   if (event.target.dataset.action !== "done") {
     return;
   }
-  const parentNode = event.target.closest(".list__container");
-  const taskTitle = parentNode.querySelector("p");
+  const parentNode = event.target.closest("li");
 
+  const id = Number(parentNode.id);
+
+  const task = tasks.find((task) => task.id === id);
+  task.done = !task.done;
+
+  const taskTitle = parentNode.querySelector("p");
   taskTitle.classList.toggle("list__task-title--done");
 
   const doneButton = parentNode.querySelector("button > span");
   doneButton.classList.toggle("list__emoji--done");
+
+  saveToLocalStorage();
+}
+
+function checkEmptyList() {
+  console.log(tasks.length);
+  if (tasks.length === 0) {
+    const emptyListHTML = `
+          <li class="empty-box" id="empty-box">
+            <img
+              src='./images/empty-list.svg'
+              class="empty-box__picture"
+              alt="empty list"
+            />
+            <p class="empty-box__phrase">Your to-do list is still empty!</p>
+          </li>
+  `;
+    tasksList.insertAdjacentHTML("afterbegin", emptyListHTML);
+  }
+
+  if (tasks.length > 0) {
+    const emptyListElement = document.querySelector("#empty-box");
+    emptyListElement ? emptyListElement.remove() : null;
+  }
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTask(task) {
+  const cssClass = task.done
+    ? "list__task-title list__task-title--done"
+    : "list__task-title";
+
+  const taskHTML = `
+      <li class="list__item" id=${task.id}>
+        <div class="list__container">
+          <button class="list__button list__button-done button" data-action="done">
+            <span class="list__emoji">✔️</span>
+          </button>
+          <p class="${cssClass}">${task.text}</p>
+        </div>
+        <button class="list__button list__button-delete button" data-action="delete">
+          ❌
+        </button>
+      </li>`;
+
+  tasksList.insertAdjacentHTML("beforeend", taskHTML);
 }
