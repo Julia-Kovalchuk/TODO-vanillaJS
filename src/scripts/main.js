@@ -6,6 +6,18 @@ form.addEventListener("submit", addTask);
 tasksList.addEventListener("click", deleteTask);
 tasksList.addEventListener("click", doneTask);
 
+// Other buttons
+const showDoneButton = document.querySelector(".button-box__show-done");
+showDoneButton.addEventListener("click", showDone);
+
+const showAllButton = document.querySelector(".button-box__show-all");
+showAllButton.addEventListener("click", showAll);
+
+const showUnfulfilledButton = document.querySelector(
+  ".button-box__show-unfulfilled"
+);
+showUnfulfilledButton.addEventListener("click", showUnfulfilled);
+
 let tasks = [];
 
 if (localStorage.getItem("tasks")) {
@@ -18,6 +30,20 @@ checkEmptyList();
 
 function addTask(event) {
   event.preventDefault();
+
+  if (taskInput.value === "") {
+    const emptyInputWarning = document.querySelector(".validation-phrase");
+
+    emptyInputWarning.classList.toggle("validation-phrase--hidden");
+
+    setTimeout(() => {
+      emptyInputWarning.classList.toggle("validation-phrase--hidden");
+    }, 1500);
+
+    taskInput.focus();
+
+    return;
+  }
 
   const taskValue = taskInput.value;
 
@@ -75,7 +101,6 @@ function doneTask(event) {
 }
 
 function checkEmptyList() {
-  console.log(tasks.length);
   if (tasks.length === 0) {
     const emptyListHTML = `
           <li class="empty-box" id="empty-box">
@@ -101,17 +126,24 @@ function saveToLocalStorage() {
 }
 
 function renderTask(task) {
-  const cssClass = task.done
+  const taskCSSClass = task.done
     ? "list__task-title list__task-title--done"
     : "list__task-title";
+
+  let doneCSSClass = "";
+
+  if (task.done) {
+    isDone = true;
+    doneCSSClass = "list__emoji--done";
+  }
 
   const taskHTML = `
       <li class="list__item" id=${task.id}>
         <div class="list__container">
           <button class="list__button list__button-done button" data-action="done">
-            <span class="list__emoji">✔️</span>
+            <span class="list__emoji ${doneCSSClass}">✔️</span>
           </button>
-          <p class="${cssClass}">${task.text}</p>
+          <p class="${taskCSSClass}">${task.text}</p>
         </div>
         <button class="list__button list__button-delete button" data-action="delete">
           ❌
@@ -119,4 +151,26 @@ function renderTask(task) {
       </li>`;
 
   tasksList.insertAdjacentHTML("beforeend", taskHTML);
+}
+
+function showDone() {
+  let doneTasks = tasks.filter((task) => task.done === true);
+
+  tasksList.innerText = "";
+
+  doneTasks.forEach((task) => renderTask(task));
+}
+
+function showAll() {
+  tasksList.innerText = "";
+
+  tasks.forEach((task) => renderTask(task));
+}
+
+function showUnfulfilled() {
+  let unfulfilledTasks = tasks.filter((task) => task.done === false);
+
+  tasksList.innerText = "";
+
+  unfulfilledTasks.forEach((task) => renderTask(task));
 }

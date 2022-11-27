@@ -24,6 +24,23 @@ body {
   }
 }
 
+button {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background: #05af8a;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #3dc9ab;
+  }
+
+  &:active {
+    background: #187561;
+  }
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -37,6 +54,7 @@ body {
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   grid-gap: 25px;
@@ -81,13 +99,23 @@ body {
     }
   }
 
-  &__button {
-    padding: 5px 15px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    background: #05af8a;
-  }
+  // &__button {
+  //   padding: 5px 15px;
+  //   border: none;
+  //   border-radius: 10px;
+  //   color: white;
+  //   background: #05af8a;
+  // }
+}
+
+.validation-phrase {
+  position: absolute;
+  top: 165px;
+  color: #a10a3c;
+}
+
+.validation-phrase--hidden {
+  display: none;
 }
 
 .list {
@@ -149,7 +177,7 @@ body {
   &__button-done {
     width: 25px;
     height: 25px;
-    padding-top: 2px;
+    padding: 2px 0px 0px 0px;
     border: 1px solid rgba(53, 53, 56, 0.425);
     border-radius: 50%;
   }
@@ -157,6 +185,15 @@ body {
   &__button-delete {
     color: #a10a3c;
     border: none;
+
+    &:hover {
+      scale: 1.1;
+      background: none;
+    }
+    &:active {
+      scale: 0.9;
+      background: none;
+    }
   }
 }
 
@@ -180,16 +217,8 @@ body {
   display: none;
 }
 
-// .menu {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   list-style-type: none;
-//   margin-top: 10px;
-
-//   @include mobile {
-//     padding: 0;
-//     flex-direction: column;
-//     text-align: center;
-//   }
-// }
+.button-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
