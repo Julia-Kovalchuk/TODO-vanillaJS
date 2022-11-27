@@ -1,10 +1,27 @@
 @use "sass:map";
 
-//TODO: стилизация checkbox
 //TODO: onclick styles
 body {
   color: #055247;
   font-family: "Josefin Sans", sans-serif;
+  scrollbar-color: #458245 #714826;
+  scrollbar-width: thin;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 8px;
+    background-color: #103f38;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #3e8076;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #118573;
+  }
 }
 
 .wrapper {
@@ -24,7 +41,6 @@ body {
   flex-direction: column;
   grid-gap: 25px;
   width: 500px;
-  min-height: 600px;
   border-radius: 20px;
   padding: 25px;
   background: white;
@@ -75,6 +91,11 @@ body {
 }
 
 .list {
+  min-height: 400px;
+  max-height: 400px;
+  overflow: hidden;
+  overflow: auto;
+
   &__item {
     display: flex;
     justify-content: space-between;
