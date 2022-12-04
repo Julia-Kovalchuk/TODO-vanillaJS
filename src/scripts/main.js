@@ -104,12 +104,7 @@ function checkEmptyList() {
   if (tasks.length === 0) {
     const emptyListHTML = `
           <li class="empty-box" id="empty-box">
-            <img
-              src='./images/empty-list.svg'
-              class="empty-box__picture"
-              alt="empty list"
-            />
-            <p class="empty-box__phrase">Your to-do list is still empty!</p>
+           Your to-do list is still empty!
           </li>
   `;
     tasksList.insertAdjacentHTML("afterbegin", emptyListHTML);
